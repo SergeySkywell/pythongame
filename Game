@@ -1,0 +1,88 @@
+# Создаём и рисуем доску
+
+board = [
+    ['-', '-', '-'],
+    ['-', '-', '-'],
+    ['-', '-', '-']
+]
+
+def print_board ():
+    print(f"  1 2 3")
+    print(f"1 {board[0][0]} {board[0][1]} {board[0][2]}")
+    print(f"2 {board[1][0]} {board[1][1]} {board[1][2]}")
+    print(f"3 {board[2][0]} {board[2][1]} {board[2][2]}")
+
+# Делаем ход
+
+def step():
+    while True:
+        x, y = map(int, input("Ваш ход: ").split())
+
+        if 0 <= x <= 2 and 0 <= y <= 2:
+            if board[x][y] == "-":
+                return x, y
+            else:
+                print(f"Клетка {x} {y} занята")
+        else:
+            print(f"Координаты {x} {y} не существуют")
+
+# Проверка выигрыша
+
+def check_win():
+    win_comb = [
+        ((0,0),(0,1),(0,2)),
+        ((1,0),(1,1),(1,2)),
+        ((2,0),(2,1),(2,2)),
+        ((0,0),(1,0),(2,0)),
+        ((0,1),(1,1),(2,1)),
+        ((0,2),(1,2),(2,2)),
+        ((2,0),(1,1),(0,2)),
+        ((0,0),(1,1),(2,2))
+    ]
+
+    for cord in win_comb:
+        symbols = []
+
+        for c in cord:
+            symbols.append(board[c[0]][c[1]])
+
+        if symbols == ["X", "X", "X"]:
+            print('Выиграл X')
+            return True
+
+        if symbols == ["0", "0", "0"]:
+            print('Выиграл X')
+            return True
+
+    return False
+
+# Игра
+
+num_step = 0
+while True:
+    num_step += 1
+
+    print_board()
+
+    if num_step % 2 == 1:
+        print('Ходит игрок 1')
+    else:
+        print('Ходит игрок 2')
+
+    x, y = step()
+
+    if num_step % 2 == 1:
+        board[x][y] = 'X'
+    else:
+        board[x][y] = '0'
+
+    if num_step == 9:
+        break
+        print('Ничья!')
+
+    if check_win():
+        break
+
+    if num_step == 9:
+        print("Ничья!")
+        break
